@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Query, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import httpx
 from bs4 import BeautifulSoup
@@ -6,6 +7,14 @@ import json
 import re
 
 app = FastAPI(title="QuickSearch API", description="A simple search API powered by DuckDuckGo")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 async def search_duckduckgo(query: str, max_results: int = 10) -> List[dict]:
